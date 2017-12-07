@@ -7,14 +7,14 @@ check as `UNSIGNED`.
 
 ```json
 {
-  "name": "order_route",
+  "name": "book",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "qty": {
+    "pages": {
       "type": "number",
       "required": true,
       "unsigned": true
@@ -34,27 +34,27 @@ relation.
 
 ```json
 {
-  "name": "order_route",
+  "name": "book",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "foreignKeys": {
-    "fk_order_id": {
-      "name": "fk_order_id",
-      "foreignKey": "fk_order_id",
+    "fk_author_id": {
+      "name": "fk_author_id",
+      "foreignKey": "fk_author_id",
       "entityKey": "id",
       "entity": "order"
     }
   },
   "properties": {
-    "qty": {
+    "pages": {
       "type": "number",
       "required": true,
       "unsigned": true
     },
-    "description": {
+    "name": {
       "type": "string",
       "required": true
     }
@@ -77,7 +77,7 @@ module.exports = function(app) {
   // step one, automigrate
   // in this steps the columns will be created without the
   // corresponding constraint
-  ds.automigrate(['order_route'], err => {
+  ds.automigrate(['book'], err => {
     if (err) {
       throw err;
     }
@@ -86,7 +86,7 @@ module.exports = function(app) {
 
   // step two, autoupdate
   // in this step the foreign key constraint will be created
-  // ds.autoupdate(['order_route'], err => {
+  // ds.autoupdate(['book'], err => {
   //   if (err) {
   //     throw err;
   //   }
@@ -98,3 +98,7 @@ module.exports = function(app) {
 First we need to run `automigrate` and we need to stop the server, uncomment the
 `autoupdate` portion and commment `automigrate` portion instead then run again
 the server.
+
+**Note:** We need to make sure that we have the latest version of the
+[loopback-connector-mysql](https://www.npmjs.com/package/loopback-connector-mysql)
+otherwise the creation of the constraint will fail.
