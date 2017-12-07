@@ -74,24 +74,14 @@ key constraint
 module.exports = function(app) {
   const { mysqlIDs: ds } = app.dataSources;
 
-  // step one, automigrate
-  // in this steps the columns will be created without the
-  // corresponding constraint
-  ds.automigrate(['book'], err => {
+  // in this steps the columns will be created
+  // and also the foreign key constraint
+  ds.autoupdate(['book'], err => {
     if (err) {
       throw err;
     }
     console.log('tables synced');
   });
-
-  // step two, autoupdate
-  // in this step the foreign key constraint will be created
-  // ds.autoupdate(['book'], err => {
-  //   if (err) {
-  //     throw err;
-  //   }
-  //   console.log('tables synced');
-  // });
 };
 ```
 
