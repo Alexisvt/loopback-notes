@@ -102,3 +102,48 @@ the server.
 **Note:** We need to make sure that we have the latest version of the
 [loopback-connector-mysql](https://www.npmjs.com/package/loopback-connector-mysql)
 otherwise the creation of the constraint will fail.
+
+## How to set the type of a property to other than the default one
+
+In SQL we have the option to define a number as `TINYINT`, `INT`, `DECIMAL` and
+son on, we can tell to **LoopBack** about it, if we are using **MYSQL** we can
+do that adding the key _mysql_ to the desire property we want to do the change.
+
+```json
+{
+  "name": "book",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "price": {
+      "type": "number",
+      "required": true,
+      "unsigned": true,
+      "mysql": {
+        "dataType": "DECIMAL",
+        "dataPrecision": 15,
+        "dataScale": 2
+      }
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
+```
+
+In this case we are changing the **price** property to use `DECIMAL` instead of
+default value which is `INT`.
+
+**Note:** more about types:
+
+* [LoopBack types](https://loopback.io/doc/en/lb3/LoopBack-types.html)
+* [MySQL connector](https://loopback.io/doc/en/lb3/MySQL-connector.html#loopback-to-mysql-types)
