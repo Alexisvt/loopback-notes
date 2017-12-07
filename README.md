@@ -66,15 +66,15 @@ relation.
 }
 ```
 
-Then we need to run the `automigrate` option first then over the same model run
-the `autoupdate`. This second operation will do the trick and make the foreign
-key constraint
+Then we need to run our server with the `autoupdate` feature in it, this will
+create the table and the constraint. Obviously we need the depency table first
+if not the server will throw an error.
 
 ```js
 module.exports = function(app) {
   const { mysqlIDs: ds } = app.dataSources;
 
-  // in this steps the columns will be created
+  // in this step the table will be created
   // and also the foreign key constraint
   ds.autoupdate(['book'], err => {
     if (err) {
@@ -84,10 +84,6 @@ module.exports = function(app) {
   });
 };
 ```
-
-First we need to run `automigrate` and we need to stop the server, uncomment the
-`autoupdate` portion and commment `automigrate` portion instead then run again
-the server.
 
 **Note:** We need to make sure that we have the latest version of the
 [loopback-connector-mysql](https://www.npmjs.com/package/loopback-connector-mysql)
